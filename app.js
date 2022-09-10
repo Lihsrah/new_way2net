@@ -21,9 +21,14 @@ app.engine('html', require('hbs').__express);
 app.set('views', __dirname + '/views');
 
 
+const server = http.createServer((req, res) => {
+  res.writeHead(301,{Location: `https://${req.headers.host}${req.url}`});
+  res.end();
+});
 
+server.listen(80);
+console.log(`http2https ==> 80:443`);
 
-const httpServer = http.createServer(app);
 const httpsServer = https.createServer({
   key: fs.readFileSync(path.join(__dirname , 'cert','key.pem')),
   cert: fs.readFileSync(path.join(__dirname , 'cert','cert.pem')),
